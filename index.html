@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="zh-Hant"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>日語 N3 之路 · 每日 30 分鐘</title>
+<style>
+*{box-sizing:border-box}
+body{font-family:-apple-system,"Noto Sans TC","PingFang TC","Hiragino Sans","Noto Sans JP",sans-serif;max-width:680px;margin:0 auto;padding:20px 12px 32px;background:#f7f8fa;color:#222}
+h1{font-size:1.4rem;margin:0 0 4px}h2{font-size:1.05rem;margin:24px 0 8px}p.sub{color:#666;margin:0 0 14px;font-size:.9rem}
+ruby rt{font-size:.6em;color:#888}
+.strip{display:flex;gap:3px;margin:0 0 12px;overflow-x:auto;padding-bottom:2px}
+.strip button{flex:1 0 38px;border:0;border-radius:8px;padding:5px 2px;font-size:.68rem;line-height:1.25;cursor:pointer;color:#fff;font-weight:700}
+.strip button.cur{outline:3px solid #f59e0b;outline-offset:1px}
+.strip button small{display:block;font-weight:400;opacity:.9}
+.cal{background:#fff;border-radius:12px;padding:10px 8px 12px;box-shadow:0 1px 3px rgba(0,0,0,.08)}
+.nav{display:flex;align-items:center;justify-content:space-between;margin-bottom:4px}
+.nav b{font-size:1.1rem}
+.nav button{border:0;background:#eef2ff;color:#2563eb;width:44px;height:44px;border-radius:10px;font-size:1.3rem;cursor:pointer}
+.nav button:disabled{opacity:.3;cursor:default}
+.focus{text-align:center;font-size:.82rem;color:#444;margin:0 4px 8px;line-height:1.5}
+.pill{display:inline-block;color:#fff;border-radius:999px;padding:0 9px;font-size:.75rem;font-weight:700;margin-right:6px}
+.grid{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:3px}
+.wd{text-align:center;font-size:.75rem;color:#888;padding:2px 0}
+.c{position:relative;min-height:54px;border-radius:8px;padding:3px 3px 2px;font-size:.8rem;color:#999;overflow:hidden;display:flex;flex-direction:column;border:1px solid transparent}
+.c.pl{color:#555}
+.c.pre{color:#ccc}
+.c.l{text-decoration:none;font-weight:600;color:#1e293b}
+.c.l:hover,.c.l:focus-visible{filter:brightness(.95);outline:none}
+.c.today{box-shadow:0 0 0 2px #f59e0b}
+.c.today .n{background:#f59e0b;color:#fff;border-radius:50%;width:1.5em;height:1.5em;display:inline-flex;align-items:center;justify-content:center}
+.c.ev{background:#fff4e0;border-color:#fbbf24}
+.c.exam{background:#fde2e4;border-color:#e5484d;color:#b4232a;font-weight:700}
+.c .n{line-height:1.5em}
+.c .ck{position:absolute;top:2px;right:4px;color:#16a34a;font-weight:700}
+.c .ck.p{color:#d97706}
+.c .ei{position:absolute;top:1px;right:3px;font-size:.95rem}
+.dots{margin-top:auto;display:flex;gap:3px;padding:2px 0}
+.dots i{flex:1;height:5px;border-radius:3px;background:rgba(0,0,0,.12)}.dots i.f{background:#16a34a}
+.lb{display:none;font-weight:400;font-size:.62rem;line-height:1.2;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.c.ev .lb,.c.exam .lb{display:block}
+@media(min-width:520px){.lb{display:block}.c{min-height:74px}}
+.legend{font-size:.75rem;color:#777;margin-top:8px;line-height:1.6}
+.ms{display:grid;gap:8px}
+.ms div{background:#fff;border-radius:10px;padding:10px 14px;box-shadow:0 1px 3px rgba(0,0,0,.08);display:flex;gap:10px;align-items:center}
+.ms .i{font-size:1.4rem}.ms .cd{margin-left:auto;font-weight:700;color:#2563eb;white-space:nowrap}
+.ph{background:#fff;border-radius:10px;padding:10px 14px;box-shadow:0 1px 3px rgba(0,0,0,.08);margin:8px 0;border-left:6px solid}
+.ph b{display:block}.ph ul{margin:6px 0 0;padding-left:1.1em;font-size:.85rem;color:#444}
+ul.list{list-style:none;padding:0;margin:0}ul.list li{margin:8px 0}
+ul.list a{display:block;background:#fff;border-radius:10px;padding:12px 14px;text-decoration:none;color:inherit;box-shadow:0 1px 3px rgba(0,0,0,.08)}
+ul.list a:hover{box-shadow:0 2px 8px rgba(0,0,0,.15)}
+.d{display:block;font-weight:600;color:#2563eb}.t{display:block;margin-top:4px;font-size:.92rem}.t em{font-style:normal;color:#888;margin-right:6px}
+.ok{color:#16a34a;margin-left:6px}.pt{color:#d97706;margin-left:6px;font-weight:400;font-size:.8rem}
+@media (prefers-color-scheme:dark){body{background:#10141c;color:#e8ecf5}.cal,.ms div,.ph,ul.list a{background:#1a2030;box-shadow:none}p.sub,.legend,.focus,.ph ul{color:#9aa5ba}
+ .c.l{color:#e8ecf5}.c.pl{color:#aab}.c.ev{background:#3b2c12;border-color:#a16207}.c.exam{background:#4a1e24;color:#ffb3b8}.nav button{background:#243059;color:#9db2ff}}
+</style></head>
+<body><h1>🎌 日語 N3 之路 · 每日 30 分鐘</h1><p class="sub" id="sub"></p>
+<div class="strip" id="strip"></div>
+<div class="cal"><div class="nav"><button id="prev" aria-label="上個月">‹</button><b id="mt"></b><button id="next" aria-label="下個月">›</button></div>
+<div class="focus" id="focus"></div>
+<div class="grid" id="grid"></div>
+<div class="legend">週一開始 · 橘框＝今天 · 有底色的日子＝已有課程（點進去）· 下方三條＝聽力／文法／閱讀（綠＝已完成）· ✓＝三段都完成 · 🏃 半馬、📝 IELTS 當天為輕量複習 · 進度存在本機瀏覽器</div></div>
+<h2>📍 里程碑</h2><div class="ms" id="ms"></div>
+<h2>🗺️ 學習階段</h2><div id="phases"></div>
+<h2>全部課程（最新在最上面）</h2><ul class="list" id="list"></ul>
+<script>
+"use strict";
+const {lessons:LESSONS,plan:PLAN}={"lessons": [{"d": "2026-10-07", "t": "こそあど＋「の」：これは だれの かさですか", "k": "これ・それ・あれ", "lv": "N5"}, {"d": "2026-10-06", "t": "自我介紹：〜は〜です／〜ですか", "k": "自己紹介", "lv": "N5"}], "plan": {"title": "日語 N3 之路 · 每日 30 分鐘", "start": "2026-10-06", "exam": "2027-12-05", "phases": [{"id": "N5", "name": "N5 基礎", "from": "2026-10", "to": "2026-11", "color": "#16a34a", "soft": "#e7f7ec"}, {"id": "N4", "name": "N4", "from": "2026-12", "to": "2027-04", "color": "#2563eb", "soft": "#e8efff"}, {"id": "N3", "name": "N3", "from": "2027-05", "to": "2027-12", "color": "#c026d3", "soft": "#fbe9fd"}], "months": {"2026-10": "N5①：〜は〜です、こそあど、の、ます形動詞、助詞 を／に／で", "2026-11": "N5②：い／な形容詞、て形、〜たい、時間與數量（11/30 IELTS 前一週輕量）", "2026-12": "N4①：普通形、ない形、た形、〜たことがある", "2027-01": "N4②：可能形、〜ながら、〜てしまう、〜ておく", "2027-02": "N4③：授受（あげる／くれる／もらう）、條件 と／ば／たら／なら", "2027-03": "N4④：被動、使役、意向形、敬語入門", "2027-04": "N4 總複習＋模擬題（N4 程度達成）", "2027-05": "N3①：〜ようにする／なる、〜ばかり、〜はず", "2027-06": "N3②：〜らしい／〜ようだ／〜みたい（推量・傳聞）", "2027-07": "N3③：〜ために／〜ように、〜ことにする／なる、〜わけ", "2027-08": "N3④：〜にとって／〜に対して／〜について 等複合助詞", "2027-09": "N3⑤：敬語強化、長文讀解、聽解「即時應答」", "2027-10": "N3 模擬試題①＋弱點補強", "2027-11": "N3 模擬試題②＋總複習", "2027-12": "考前衝刺 → 12/5 JLPT N3"}, "events": [{"d": "2026-10-25", "icon": "🏃", "t": "半程馬拉松", "light": true, "note": "比賽日：只做輕量複習（約 15 分鐘），好好跑！"}, {"d": "2026-11-30", "icon": "📝", "t": "IELTS 考試", "light": true, "note": "IELTS 考試日：只做輕量複習（約 15 分鐘），專心考試！"}, {"d": "2027-12-05", "icon": "🎌", "t": "JLPT N3 考試", "light": true, "note": "JLPT N3 考試日！頑張って！"}]}};
+const MAP={};LESSONS.forEach(l=>MAP[l.d]=l);
+const EV={};PLAN.events.forEach(e=>EV[e.d]=e);
+const esc=s=>String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const rb=s=>esc(s).replace(/\{([^|{}]+)\|([^{}]+)\}/g,"<ruby>$1<rt>$2</rt></ruby>");
+const plain=s=>String(s).replace(/\{([^|{}]+)\|[^{}]+\}/g,"$1");
+const pad=n=>String(n).padStart(2,"0");
+const phaseOf=ym=>PLAN.phases.find(p=>p.from<=ym&&ym<=p.to);
+function prog(id){let o=null;try{o=JSON.parse(localStorage.getItem("jp-n3:v1:"+id)||"null")}catch(e){}
+  const p=["L","G","R"].map(k=>o&&o[k]&&o[k].done?"f":"");return{p,all:p.every(x=>x==="f"),some:p.some(x=>x)}}
+const now=new Date(),todayS=now.getFullYear()+"-"+pad(now.getMonth()+1)+"-"+pad(now.getDate());
+const dayDiff=(a,b)=>Math.round((Date.UTC(+b.slice(0,4),+b.slice(5,7)-1,+b.slice(8,10))-Date.UTC(+a.slice(0,4),+a.slice(5,7)-1,+a.slice(8,10)))/864e5);
+function shift(ym,d){let y=+ym.slice(0,4),m=+ym.slice(5,7)-1+d;y+=Math.floor(m/12);m=((m%12)+12)%12;return y+"-"+pad(m+1)}
+const minM=[PLAN.start.slice(0,7)].concat(LESSONS.map(l=>l.d.slice(0,7))).sort()[0];
+const maxM=[PLAN.exam.slice(0,7)].concat(LESSONS.map(l=>l.d.slice(0,7))).sort().pop();
+let cur=todayS.slice(0,7);if(cur<minM)cur=minM;if(cur>maxM)cur=maxM;
+function months(){const a=[];for(let m=minM;m<=maxM;m=shift(m,1))a.push(m);return a}
+function renderStrip(){document.getElementById("strip").innerHTML=months().map(m=>{const p=phaseOf(m)||{color:"#999",id:""};
+  return'<button style="background:'+p.color+'" class="'+(m===cur?"cur":"")+'" data-m="'+m+'" title="'+esc(m+" "+(PLAN.months[m]||""))+'">'+(+m.slice(5,7))+'月<small>'+(m.slice(5,7)==="01"||m===minM?m.slice(0,4):"")+'</small><small>'+esc(p.id)+'</small></button>'}).join("");
+  document.querySelectorAll("#strip button").forEach(b=>b.onclick=()=>{cur=b.dataset.m;renderCal()})}
+function renderCal(){
+  const y=+cur.slice(0,4),m=+cur.slice(5,7),ph=phaseOf(cur);
+  document.getElementById("mt").textContent=y+" 年 "+m+" 月";
+  document.getElementById("focus").innerHTML=(ph?'<span class="pill" style="background:'+ph.color+'">'+esc(ph.name)+'</span>':"")+esc(PLAN.months[cur]||"");
+  document.getElementById("prev").disabled=cur<=minM;document.getElementById("next").disabled=cur>=maxM;
+  let h=["一","二","三","四","五","六","日"].map(w=>'<div class="wd">'+w+'</div>').join("");
+  const lead=(new Date(y,m-1,1).getDay()+6)%7,dim=new Date(y,m,0).getDate();
+  for(let i=0;i<lead;i++)h+='<div></div>';
+  for(let d=1;d<=dim;d++){
+    const ds=y+"-"+pad(m)+"-"+pad(d),l=MAP[ds],e=EV[ds],td=ds===todayS?" today":"";
+    const evc=e?(ds===PLAN.exam?" exam":" ev"):"",ei=e?'<span class="ei">'+e.icon+'</span>':"",elb=e?'<span class="lb">'+esc(e.t)+'</span>':"";
+    if(!l){const cls=ds<PLAN.start?" pre":(ds<=PLAN.exam?" pl":"");h+='<div class="c'+cls+evc+td+'" title="'+esc(e?e.t:"")+'"><span class="n">'+d+'</span>'+ei+elb+'</div>';continue}
+    const P=prog(ds),bg=ph&&!e?' style="background:'+ph.soft+';border-color:'+ph.color+'55"':"";
+    const tip=ds+" "+plain(l.t)+(e?"（"+e.t+"）":"");
+    h+='<a class="c l'+evc+td+'"'+bg+' href="'+ds+'.html" title="'+esc(tip)+'" aria-label="'+esc(tip)+(P.all?"（已完成）":"")+'"><span class="n">'+d+'</span>'
+      +(P.all?'<span class="ck">✓</span>':P.some?'<span class="ck p">·</span>':ei)+(elb||'<span class="lb">'+esc(plain(l.k||l.t))+'</span>')+'<span class="dots">'+P.p.map(x=>'<i class="'+x+'"></i>').join("")+'</span></a>';
+  }
+  document.getElementById("grid").innerHTML=h;renderStrip();
+}
+function renderRest(){
+  document.getElementById("ms").innerHTML=PLAN.events.map(e=>{const n=dayDiff(todayS,e.d);
+    return'<div><span class="i">'+e.icon+'</span><span><b>'+esc(e.t)+'</b><br><span style="font-size:.85rem;color:#888">'+e.d+'</span></span><span class="cd">'+(n>0?"還有 "+n+" 天":n===0?"就是今天！":"已完成")+'</span></div>'}).join("");
+  document.getElementById("phases").innerHTML=PLAN.phases.map(p=>{const ms=months().filter(m=>m>=p.from&&m<=p.to);
+    return'<div class="ph" style="border-color:'+p.color+'"><b style="color:'+p.color+'">'+esc(p.name)+'　<span style="font-weight:400;color:#888;font-size:.85rem">'+p.from.replace("-"," 年 ")+' 月 – '+p.to.replace("-"," 年 ")+' 月</span></b><ul>'
+      +ms.map(m=>'<li><b style="display:inline">'+(+m.slice(5,7))+' 月</b>　'+esc(PLAN.months[m]||"")+'</li>').join("")+'</ul></div>'}).join("");
+  let done=0;LESSONS.forEach(l=>{if(prog(l.d).all)done++});
+  document.getElementById("sub").textContent="已完成 "+done+" / "+LESSONS.length+" 天 · 每天 聽力 10＋文法 10＋閱讀 10 分鐘 · 距離 JLPT N3（"+PLAN.exam+"）還有 "+Math.max(0,dayDiff(todayS,PLAN.exam))+" 天";
+  document.getElementById("list").innerHTML=LESSONS.map(l=>{const P=prog(l.d),e=EV[l.d];
+    return'<li><a href="'+l.d+'.html"><span class="d">'+l.d+(e?" "+e.icon:"")+(P.all?'<span class="ok">✓ 已完成</span>':P.some?'<span class="pt">進行中</span>':'')+'</span><span class="t"><em>'+esc(l.lv||"")+'</em>'+rb(l.t)+'</span></a></li>'}).join("");
+}
+document.getElementById("prev").onclick=()=>{if(cur>minM){cur=shift(cur,-1);renderCal()}};
+document.getElementById("next").onclick=()=>{if(cur<maxM){cur=shift(cur,1);renderCal()}};
+window.addEventListener("pageshow",()=>{renderCal();renderRest()});
+renderCal();renderRest();
+</script>
+<style>
+.rfb{position:fixed;z-index:60;top:calc(8px + env(safe-area-inset-top,0px));right:calc(8px + env(safe-area-inset-right,0px));width:32px;height:32px;margin:0;padding:0;border:1px solid rgba(127,127,127,.35);border-radius:50%;background:rgba(127,127,127,.14);-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px);color:inherit;font:400 18px/1 -apple-system,"Segoe UI",sans-serif;display:flex;align-items:center;justify-content:center;cursor:pointer;opacity:.6;-webkit-tap-highlight-color:transparent;touch-action:manipulation}
+.rfb:hover,.rfb:focus-visible,.rfb:active{opacity:1}
+</style>
+<button type="button" class="rfb" id="rfb" aria-label="重新整理" title="重新整理">↻</button>
+<script>
+(function(){var b=document.getElementById("rfb");if(!b)return;b.addEventListener("click",function(){
+  var q=new URLSearchParams(location.search);q.delete("v");q.set("v",String(Date.now()));
+  location.replace(location.pathname+"?"+q.toString()+location.hash);
+});})();
+</script>
+</body></html>
