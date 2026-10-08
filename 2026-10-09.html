@@ -1,0 +1,771 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>日語 N3 之路 · 每日 30 分</title>
+<style>
+:root{
+  --bg:#f4f6fb;--card:#fff;--ink:#1d2433;--muted:#5d6779;--line:#e2e7f0;
+  --brand:#2b59ff;--brand-ink:#fff;--brand-soft:#e8edff;
+  --ok:#0f9d58;--ok-soft:#e3f6ec;--bad:#d93025;--bad-soft:#fdeaea;--hl:#fff1a8;--vocab:#d6e4ff;--warn-soft:#fff4e0;--warn:#b45309;
+  --radius:16px;--shadow:0 2px 10px rgba(30,45,90,.07);
+}
+@media (prefers-color-scheme:dark){
+  :root{--bg:#10141c;--card:#1a2030;--ink:#e8ecf5;--muted:#9aa5ba;--line:#2a3347;--brand:#6c8cff;--brand-ink:#0b1020;--brand-soft:#243059;
+  --ok:#4cc38a;--ok-soft:#173b2b;--bad:#ff6b60;--bad-soft:#412121;--hl:#6b5d12;--vocab:#2c3e6e;--warn-soft:#3b2c12;--warn:#f5b75a;--shadow:none}
+}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);line-height:1.6;
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang TC","Noto Sans TC","Microsoft JhengHei","Hiragino Sans","Noto Sans JP",Roboto,sans-serif}
+.wrap{max-width:760px;margin:0 auto;padding:16px 14px 60px}
+header.hero{background:linear-gradient(135deg,#e5484d,#6a3df0);color:#fff;border-radius:var(--radius);padding:20px 18px;box-shadow:var(--shadow)}
+.hero .date{font-size:.85rem;opacity:.92;letter-spacing:.02em}
+.hero h1{font-size:1.35rem;line-height:1.35;margin:6px 0 10px}
+.hero .tag{display:inline-block;background:rgba(255,255,255,.2);border-radius:999px;padding:2px 10px;font-size:.75rem;margin:0 6px 6px 0}
+.hero .meta{font-size:.88rem;opacity:.95}
+.hero a{color:#fff}
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:16px;margin:14px 0;box-shadow:var(--shadow)}
+.card h2{font-size:1.05rem;margin:0 0 12px;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.card h2 small{font-weight:400;color:var(--muted);font-size:.8rem}
+.card h3{font-size:1rem;margin:14px 0 8px}
+button,select,input{font:inherit;color:inherit}
+.btn{border:1px solid var(--line);background:var(--card);padding:8px 13px;border-radius:10px;cursor:pointer;font-weight:600;min-height:40px}
+.btn:hover{border-color:var(--brand)}
+.btn.primary{background:var(--brand);color:var(--brand-ink);border-color:var(--brand)}
+.btn.ok{background:var(--ok);color:#fff;border-color:var(--ok)}
+.btn.sm{min-height:32px;padding:4px 10px;font-size:.85rem}
+.btn:focus-visible,select:focus-visible,.opt:focus-visible,summary:focus-visible{outline:3px solid var(--brand);outline-offset:2px}
+.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+select{padding:6px 8px;border-radius:10px;border:1px solid var(--line);background:var(--card);min-height:40px}
+.muted{color:var(--muted);font-size:.85rem}
+/* plan */
+details.plan>summary{cursor:pointer;font-weight:700;font-size:1.05rem;list-style:none}
+details.plan>summary::-webkit-details-marker{display:none}
+details.plan>summary::before{content:"▶ ";font-size:.8rem}
+details.plan[open]>summary::before{content:"▼ "}
+.blk{background:var(--brand-soft);border-radius:12px;padding:10px 12px;margin-top:10px}
+.blk b{font-size:1rem}.blk p{margin:4px 0 8px;font-size:.92rem}
+.event{background:var(--warn-soft);color:var(--warn);border-radius:12px;padding:10px 12px;margin-top:12px;font-weight:600}
+/* tabs */
+nav.tabs{display:flex;gap:6px;position:sticky;top:0;z-index:5;background:var(--bg);padding:8px 0}
+nav.tabs button{flex:1;padding:9px 4px;border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:12px;font-size:.98rem;font-weight:700;cursor:pointer;line-height:1.25}
+nav.tabs button small{display:block;font-weight:400;font-size:.72rem;opacity:.85}
+nav.tabs button[aria-selected=true]{background:var(--brand);color:var(--brand-ink);border-color:var(--brand)}
+.toolbar{display:flex;justify-content:flex-end;gap:6px;margin-top:10px}
+/* japanese text */
+.jp{font-family:"Hiragino Sans","Hiragino Kaku Gothic ProN","Noto Sans JP","Yu Gothic","Meiryo",-apple-system,sans-serif}
+ruby rt{font-size:.58em;color:var(--muted);font-weight:400}
+body.nofuri ruby rt{display:none}
+.zh{color:var(--muted);font-size:.9rem}
+/* player */
+.player{border:1px solid var(--line);border-radius:12px;padding:10px 12px;background:var(--brand-soft)}
+.player input[type=range]{width:100%;accent-color:var(--brand);margin:8px 0 0}
+.player .tm{font-variant-numeric:tabular-nums;font-size:.85rem;color:var(--muted);margin-left:auto}
+.player .note{font-size:.8rem;color:var(--muted);margin-top:4px}
+.seg{display:inline-flex;border:1px solid var(--line);border-radius:10px;overflow:hidden}
+.seg button{border:0;background:var(--card);padding:5px 10px;font-size:.82rem;cursor:pointer}
+.seg button[aria-pressed=true]{background:var(--brand);color:var(--brand-ink)}
+.script{margin-top:12px}
+.ln{display:flex;gap:8px;padding:6px 8px;border-radius:10px;cursor:pointer;transition:background .15s;align-items:flex-start}
+.ln:hover{background:var(--brand-soft)}
+.ln.cur{background:var(--hl)}
+.ln .who{flex:0 0 auto;font-weight:700;font-size:.85rem;border-radius:999px;padding:2px 9px;margin-top:6px;background:var(--line)}
+.ln .who.A{background:#ffe0e3;color:#b4232a}.ln .who.B{background:#dde7ff;color:#1e40af}
+@media (prefers-color-scheme:dark){.ln .who.A{background:#4a1e24;color:#ffb3b8}.ln .who.B{background:#1e2c55;color:#b3c7ff}}
+.ln .tx{font-size:1.12rem;line-height:2}
+.ln .tx .zh{display:block;line-height:1.5}
+.noztr .ln .zh{display:none}
+/* questions */
+.q{border-top:1px solid var(--line);padding:12px 0}
+.q:first-child{border-top:0}
+.q .qt{font-weight:600;font-size:1.06rem;line-height:2}
+.q .qn{display:inline-block;min-width:1.6em;font-weight:800;color:var(--brand)}
+.opts{display:flex;flex-wrap:wrap;gap:8px;margin:6px 0}
+.opt{flex:1 1 140px;text-align:left;padding:8px 12px;border-radius:12px;border:2px solid var(--line);background:var(--card);cursor:pointer;min-height:44px;line-height:1.9}
+.opt:hover:not(:disabled){border-color:var(--brand)}
+.opt.right{border-color:var(--ok);background:var(--ok-soft)}
+.opt.wrong{border-color:var(--bad);background:var(--bad-soft)}
+details.ans{margin-top:6px}
+details.ans>summary{cursor:pointer;color:var(--brand);font-weight:600;font-size:.9rem;display:inline-block;padding:2px 0}
+details.ans .box{background:var(--ok-soft);border-radius:10px;padding:8px 12px;margin-top:6px;line-height:1.95}
+details.ans .box b{color:var(--ok)}
+/* grammar */
+.gp{border-left:5px solid var(--brand);padding-left:12px;margin:4px 0 16px}
+.gp .pat{font-size:1.15rem;font-weight:800}
+.gp .mean{color:var(--brand);font-weight:700}
+.gp ul{padding-left:1.2em;margin:8px 0}.gp li{margin:4px 0;line-height:1.9}
+.ex{display:flex;gap:8px;align-items:flex-start;background:var(--bg);border-radius:10px;padding:6px 10px;margin:6px 0}
+.ex .t{font-size:1.06rem;line-height:2}
+.say{flex:0 0 auto;border:1px solid var(--line);background:var(--card);border-radius:50%;width:34px;height:34px;cursor:pointer;margin-top:4px;font-size:.95rem}
+.say:hover{border-color:var(--brand)}.say.on{background:var(--brand);color:var(--brand-ink)}
+/* reading */
+.passage{font-size:1.15rem;line-height:2.25;margin:10px 0}
+.passage p{margin:0 0 12px}
+.passage .s{border-radius:6px;cursor:pointer;padding:1px 0}
+.passage .s.cur{background:var(--hl)}
+.trans p{margin:0 0 8px}
+.gloss{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:6px;margin:6px 0}
+.gloss div{background:var(--bg);border-radius:10px;padding:5px 10px;line-height:1.9}
+.gloss .w{font-weight:700}
+/* vocab */
+.vc{display:flex;gap:10px;border-top:1px solid var(--line);padding:10px 0;align-items:flex-start}
+.vc:first-child{border-top:0}
+.vc .w{font-size:1.35rem;font-weight:800;line-height:2}
+.vc .pos{font-size:.75rem;color:var(--muted);border:1px solid var(--line);border-radius:999px;padding:0 8px;margin-left:6px;vertical-align:middle}
+.vc .mn{font-weight:700;color:var(--brand)}
+.hidezh .vc .mn{filter:blur(6px);cursor:pointer}
+.done-row{display:flex;justify-content:center;margin:6px 0 2px}
+.chip{display:inline-block;font-size:.75rem;padding:1px 8px;border-radius:999px;background:var(--ok-soft);color:var(--ok);font-weight:700}
+footer{text-align:center;color:var(--muted);font-size:.8rem;margin-top:20px}
+footer a{color:var(--brand)}
+@media (max-width:420px){.hero h1{font-size:1.2rem}nav.tabs button{font-size:.9rem}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header class="hero" id="hero"></header>
+<section class="card" id="plancard"></section>
+<div class="toolbar"><button class="btn sm" id="furiBtn" aria-pressed="true">ふりがな：開</button><a class="btn sm" href="index.html" style="text-decoration:none;display:inline-flex;align-items:center">📅 月曆</a></div>
+<nav class="tabs" role="tablist">
+  <button role="tab" data-t="listen" aria-selected="true">🎧 聽力<small id="tm-listen"></small></button>
+  <button role="tab" data-t="grammar" aria-selected="false">📘 文法<small id="tm-grammar"></small></button>
+  <button role="tab" data-t="read" aria-selected="false">📖 閱讀<small id="tm-read"></small></button>
+  <button role="tab" data-t="vocab" aria-selected="false">🗂 單字<small>隨時</small></button>
+</nav>
+<section class="panel" id="p-listen"></section>
+<section class="panel" id="p-grammar" hidden></section>
+<section class="panel" id="p-read" hidden></section>
+<section class="panel" id="p-vocab" hidden></section>
+<footer>日文語音：Microsoft Edge 神經語音（ja-JP Nanami／Keita）；音檔無法播放時自動改用瀏覽器內建日語語音。<br><a href="index.html">← 回月曆</a></footer>
+</div>
+<script>
+"use strict";
+const DATA = {
+ "date": "2026-10-09",
+ "title": "價格與時間：いくら／〜時〜分／〜から〜まで",
+ "topic": "いくら・〜時",
+ "level": "N5",
+ "minutes": {
+  "listen": 10,
+  "grammar": 10,
+  "read": 10
+ },
+ "listening": {
+  "title": "メロンパンは いくらですか（菠蘿麵包多少錢？）",
+  "scene": "去東京旅行時，チェン在車站附近的麵包店買早餐，順便問營業時間。",
+  "speakers": {
+   "A": {
+    "name": "店員",
+    "voice": "ja-JP-NanamiNeural"
+   },
+   "B": {
+    "name": "チェン",
+    "voice": "ja-JP-KeitaNeural"
+   }
+  },
+  "lines": [
+   {
+    "sp": "A",
+    "jp": "いらっしゃいませ。",
+    "zh": "歡迎光臨。"
+   },
+   {
+    "sp": "B",
+    "jp": "すみません、このパンはいくらですか。",
+    "zh": "不好意思，這個麵包多少錢？"
+   },
+   {
+    "sp": "A",
+    "jp": "メロンパンですか。{180円|ひゃくはちじゅうえん}です。",
+    "zh": "菠蘿麵包嗎？180 日圓。"
+   },
+   {
+    "sp": "B",
+    "jp": "じゃあ、メロンパンを{二|ふた}つと、コーヒーをください。",
+    "zh": "那麼，請給我兩個菠蘿麵包和咖啡。"
+   },
+   {
+    "sp": "A",
+    "jp": "はい。{全部|ぜんぶ}で{660円|ろっぴゃくろくじゅうえん}です。",
+    "zh": "好的。一共 660 日圓。"
+   },
+   {
+    "sp": "B",
+    "jp": "あのう、このお{店|みせ}は{何時|なんじ}から{何時|なんじ}までですか。",
+    "zh": "請問，這家店從幾點開到幾點？"
+   },
+   {
+    "sp": "A",
+    "jp": "{朝|あさ}{8時|はちじ}から{夜|よる}{9時半|くじはん}までです。",
+    "zh": "早上 8 點到晚上 9 點半。"
+   },
+   {
+    "sp": "B",
+    "jp": "{日曜日|にちようび}は？",
+    "zh": "星期日呢？"
+   },
+   {
+    "sp": "A",
+    "jp": "{日曜日|にちようび}は{休|やす}みです。",
+    "zh": "星期日公休。"
+   }
+  ],
+  "questions": [
+   {
+    "q": "メロンパンは {一|ひと}つ いくらですか。",
+    "zh": "菠蘿麵包一個多少錢？",
+    "options": [
+     "{160円|ひゃくろくじゅうえん}",
+     "{180円|ひゃくはちじゅうえん}",
+     "{660円|ろっぴゃくろくじゅうえん}"
+    ],
+    "a": 1,
+    "ex": "「{180円|ひゃくはちじゅうえん}です」。660 日圓是兩個麵包加咖啡的**總額**（陷阱）。"
+   },
+   {
+    "q": "お{店|みせ}は {何時|なんじ}から {何時|なんじ}までですか。",
+    "zh": "店從幾點開到幾點？",
+    "options": [
+     "{8時|はちじ}〜{9時|くじ}",
+     "{8時|はちじ}〜{9時半|くじはん}",
+     "{9時|くじ}〜{8時半|はちじはん}"
+    ],
+    "a": 1,
+    "ex": "「{朝|あさ}{8時|はちじ}から{夜|よる}{9時半|くじはん}までです」。{半|はん}＝30 分。"
+   },
+   {
+    "q": "お{店|みせ}の {休|やす}みは {何曜日|なんようび}ですか。",
+    "zh": "店休是星期幾？（用日文回答）",
+    "a": "{日曜日|にちようび}です。",
+    "ex": "「{日曜日|にちようび}は{休|やす}みです」。"
+   }
+  ],
+  "audio": {
+   "src": "audio/2026-10-09-listen.mp3",
+   "times": [
+    [
+     0.4,
+     1.47
+    ],
+    [
+     2.22,
+     4.81
+    ],
+    [
+     5.56,
+     9.36
+    ],
+    [
+     10.11,
+     13.85
+    ],
+    [
+     14.6,
+     18.17
+    ],
+    [
+     18.92,
+     22.01
+    ],
+    [
+     22.76,
+     25.45
+    ],
+    [
+     26.2,
+     27.06
+    ],
+    [
+     27.81,
+     29.52
+    ]
+   ],
+   "duration": 30.12,
+   "voices": {
+    "A": "ja-JP-NanamiNeural",
+    "B": "ja-JP-KeitaNeural"
+   }
+  }
+ },
+ "grammar": [
+  {
+   "pattern": "N は いくらですか／〜{円|えん}です",
+   "meaning": "N 多少錢？／～日圓",
+   "explain": [
+    "「いくら」＝多少錢。回答「〜{円|えん}です」（えん，不是 yen）。買東西或點餐時說「N を ください」（請給我 N）。",
+    "百位的音變要背：300 さん**び**ゃく、600 ろ**っぴ**ゃく、800 は**っぴ**ゃく；千位：3000 さん**ぜ**ん、8000 は**っせ**ん。其他照規則：100 ひゃく、1000 せん、10000 いちまん。",
+    "東西的個數用「ひとつ、ふたつ、みっつ…」：メロンパンを ふたつ ください。"
+   ],
+   "examples": [
+    {
+     "jp": "この{本|ほん}は いくらですか。——{1,200円|せんにひゃくえん}です。",
+     "zh": "這本書多少錢？——1,200 日圓。",
+     "clip": "audio/2026-10-09-clips/g1-1.mp3"
+    },
+    {
+     "jp": "コーヒーは {300円|さんびゃくえん}です。",
+     "zh": "咖啡 300 日圓。",
+     "clip": "audio/2026-10-09-clips/g1-2.mp3"
+    },
+    {
+     "jp": "メロンパンを {二|ふた}つ ください。",
+     "zh": "請給我兩個菠蘿麵包。",
+     "clip": "audio/2026-10-09-clips/g1-3.mp3"
+    }
+   ]
+  },
+  {
+   "pattern": "〜{時|じ}〜{分|ふん}／A から B まで",
+   "meaning": "幾點幾分／從 A 到 B（時間、地點都可用）",
+   "explain": [
+    "時刻：數字＋{時|じ}。特別唸法：4{時|じ} **よ**じ、7{時|じ} **しち**じ、9{時|じ} **く**じ。{半|はん}＝30 分；問時間：「{今|いま} {何時|なんじ}ですか。」",
+    "分：1 いっ**ぷ**ん、2 にふん、3 さん**ぷ**ん、4 よん**ぷ**ん、5 ごふん、6 ろっ**ぷ**ん、7 ななふん、8 はっ**ぷ**ん、9 きゅうふん、10 じゅっ**ぷ**ん——ふん／ぷん 會變，先記這 10 個。",
+    "「から」＝從～、「まで」＝到～：「{銀行|ぎんこう}は {9時|くじ}から {3時|さんじ}までです」。可只用一邊：「{授業|じゅぎょう}は {8時|はちじ}からです」。"
+   ],
+   "examples": [
+    {
+     "jp": "{今|いま} {何時|なんじ}ですか。——{3時|さんじ}{15分|じゅうごふん}です。",
+     "zh": "現在幾點？——3 點 15 分。",
+     "clip": "audio/2026-10-09-clips/g2-1.mp3"
+    },
+    {
+     "jp": "{銀行|ぎんこう}は {9時|くじ}から {3時|さんじ}までです。",
+     "zh": "銀行從 9 點營業到 3 點。",
+     "clip": "audio/2026-10-09-clips/g2-2.mp3"
+    },
+    {
+     "jp": "{日本語|にほんご}の {授業|じゅぎょう}は {7時|しちじ}{半|はん}からです。",
+     "say": "日本語の授業は、しちじはんからです。",
+     "zh": "日語課從 7 點半開始。",
+     "clip": "audio/2026-10-09-clips/g2-3.mp3"
+    }
+   ]
+  }
+ ],
+ "practice": [
+  {
+   "q": "「この かばんは（　）ですか。」「{5,000円|ごせんえん}です。」",
+   "options": [
+    "なん",
+    "いくら",
+    "どこ"
+   ],
+   "a": 1,
+   "ex": "問價錢用「いくら」。"
+  },
+  {
+   "q": "「800{円|えん}」怎麼唸？",
+   "options": [
+    "はちひゃくえん",
+    "はっぴゃくえん",
+    "はちびゃくえん"
+   ],
+   "a": 1,
+   "ex": "800＝はっぴゃく（音變）。"
+  },
+  {
+   "q": "「4{時|じ}」怎麼唸？",
+   "options": [
+    "よんじ",
+    "よじ",
+    "しじ"
+   ],
+   "a": 1,
+   "ex": "4時＝よじ；另外 7時＝しちじ、9時＝くじ。"
+  },
+  {
+   "q": "{銀行|ぎんこう}は {9時|くじ}（　）{3時|さんじ}（　）です。",
+   "zh": "填兩個助詞",
+   "a": "から／まで",
+   "ex": "從 9 點到 3 點 → 9時から3時まで。"
+  },
+  {
+   "q": "複習（10/8）：翻成日文：「車站在那裡（遠處）。」",
+   "a": "{駅|えき}は あそこです。",
+   "ex": "地點的こそあど：遠處＝あそこ。"
+  }
+ ],
+ "reading": {
+  "title": "{日本語|にほんご}クラスの お{知|し}らせ",
+  "voice": "ja-JP-NanamiNeural",
+  "passage": [
+   [
+    "{日本語|にほんご}の クラスは {毎週|まいしゅう} {火曜日|かようび}と {木曜日|もくようび}です。",
+    "{時間|じかん}は {夜|よる} {8時|はちじ}から {9時半|くじはん}までです。"
+   ],
+   [
+    "{教室|きょうしつ}は ビルの {三階|さんがい}に あります。",
+    "{教科書|きょうかしょ}は {一冊|いっさつ} {25|にじゅうご}ドルです。",
+    "{授業料|じゅぎょうりょう}は {一|いっ}か{月|げつ} {120|ひゃくにじゅう}ドルです。"
+   ],
+   [
+    "{休|やす}みは {12月|じゅうにがつ}{24日|にじゅうよっか}から {1月|いちがつ}{3日|みっか}までです。"
+   ]
+  ],
+  "trans": [
+   "日語課每週二和週四上課，時間是晚上 8 點到 9 點半。",
+   "教室在大樓的三樓。課本一本 25 元，學費一個月 120 元。",
+   "休假是 12 月 24 日到 1 月 3 日。"
+  ],
+  "gloss": [
+   {
+    "w": "お{知|し}らせ",
+    "zh": "通知、公告"
+   },
+   {
+    "w": "{毎週|まいしゅう}",
+    "zh": "每週"
+   },
+   {
+    "w": "{火曜日|かようび}と{木曜日|もくようび}",
+    "zh": "星期二和星期四（と＝和）"
+   },
+   {
+    "w": "{三階|さんがい}",
+    "zh": "三樓（〜{階|かい}：1階 いっかい、3階 さんがい）"
+   },
+   {
+    "w": "{一冊|いっさつ}",
+    "zh": "一本（書的量詞）"
+   },
+   {
+    "w": "ドル",
+    "zh": "元（新加坡幣／美元）"
+   },
+   {
+    "w": "{授業料|じゅぎょうりょう}",
+    "zh": "學費"
+   },
+   {
+    "w": "{一|いっ}か{月|げつ}",
+    "zh": "一個月"
+   },
+   {
+    "w": "{24日|にじゅうよっか}／{3日|みっか}",
+    "zh": "24 日／3 日（日期有特殊唸法，之後會整理）"
+   }
+  ],
+  "questions": [
+   {
+    "q": "クラスは {何曜日|なんようび}ですか。",
+    "zh": "課是星期幾？",
+    "options": [
+     "{月曜日|げつようび}と{水曜日|すいようび}",
+     "{火曜日|かようび}と{木曜日|もくようび}",
+     "{土曜日|どようび}だけ"
+    ],
+    "a": 1,
+    "ex": "「{毎週|まいしゅう} {火曜日|かようび}と {木曜日|もくようび}です」。"
+   },
+   {
+    "q": "クラスは {何時|なんじ}から {何時|なんじ}までですか。",
+    "zh": "課從幾點到幾點？（用日文回答）",
+    "a": "{夜|よる} {8時|はちじ}から {9時半|くじはん}までです。",
+    "ex": "第一段第二句。"
+   },
+   {
+    "q": "○か×か：{教科書|きょうかしょ}は {120|ひゃくにじゅう}ドルです。",
+    "zh": "是非題：課本 120 元。",
+    "options": [
+     "○",
+     "×"
+    ],
+    "a": 1,
+    "ex": "課本是 25 ドル；120 ドル是一個月的學費 → ×。"
+   }
+  ],
+  "audio": {
+   "src": "audio/2026-10-09-read.mp3",
+   "times": [
+    [
+     0.4,
+     4.29
+    ],
+    [
+     4.79,
+     7.88
+    ],
+    [
+     8.78,
+     11.29
+    ],
+    [
+     11.79,
+     14.49
+    ],
+    [
+     14.99,
+     18.0
+    ],
+    [
+     18.9,
+     23.25
+    ]
+   ],
+   "duration": 23.85,
+   "voice": "ja-JP-NanamiNeural"
+  }
+ },
+ "vocab": [
+  {
+   "w": "いくら",
+   "pos": "疑問詞",
+   "zh": "多少錢",
+   "ex": "この パンは いくらですか。",
+   "exzh": "這個麵包多少錢？",
+   "clip": "audio/2026-10-09-clips/v1.mp3",
+   "exclip": "audio/2026-10-09-clips/v1x.mp3"
+  },
+  {
+   "w": "{円|えん}",
+   "pos": "名詞",
+   "zh": "日圓",
+   "ex": "コーヒーは {300円|さんびゃくえん}です。",
+   "exzh": "咖啡 300 日圓。",
+   "clip": "audio/2026-10-09-clips/v2.mp3",
+   "exclip": "audio/2026-10-09-clips/v2x.mp3"
+  },
+  {
+   "w": "{何時|なんじ}",
+   "pos": "疑問詞",
+   "zh": "幾點",
+   "ex": "{今|いま} {何時|なんじ}ですか。",
+   "exzh": "現在幾點？",
+   "clip": "audio/2026-10-09-clips/v3.mp3",
+   "exclip": "audio/2026-10-09-clips/v3x.mp3"
+  },
+  {
+   "w": "{半|はん}",
+   "pos": "名詞",
+   "zh": "半（30 分）",
+   "ex": "{9時半|くじはん}までです。",
+   "exzh": "到 9 點半。",
+   "clip": "audio/2026-10-09-clips/v4.mp3",
+   "exclip": "audio/2026-10-09-clips/v4x.mp3"
+  },
+  {
+   "w": "{休|やす}み",
+   "pos": "名詞",
+   "zh": "休息、休假、公休",
+   "ex": "{日曜日|にちようび}は {休|やす}みです。",
+   "exzh": "星期日公休。",
+   "clip": "audio/2026-10-09-clips/v5.mp3",
+   "exclip": "audio/2026-10-09-clips/v5x.mp3"
+  }
+ ],
+ "light": false,
+ "id": "2026-10-09",
+ "events": [],
+ "dayNo": 4,
+ "daysLeft": 422,
+ "exam": "2027-12-05",
+ "phase": {
+  "id": "N5",
+  "name": "N5 基礎",
+  "color": "#16a34a"
+ },
+ "monthFocus": "N5①：〜は〜です、こそあど、の、ます形動詞、助詞 を／に／で"
+};
+const $=s=>document.querySelector(s);
+const esc=s=>String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+/* {漢字|かんじ} -> <ruby>, **x** -> <b> */
+const rb=s=>esc(s).replace(/\{([^|{}]+)\|([^{}]+)\}/g,"<ruby>$1<rt>$2</rt></ruby>").replace(/\*\*(.+?)\*\*/g,"<b>$1</b>");
+const plain=s=>String(s).replace(/\{([^|{}]+)\|([^{}]+)\}/g,(m,a,b)=>/^[ァ-ヶー・]+$/.test(b)?b:a).replace(/\*\*/g,"").replace(/——/g,"。");
+const fmt=t=>{t=Math.max(0,t||0);return Math.floor(t/60)+":"+String(Math.floor(t%60)).padStart(2,"0")};
+const KEY="jp-n3:v1:"+DATA.id;
+let ST={};try{ST=JSON.parse(localStorage.getItem(KEY)||"{}")||{}}catch(e){ST={}}
+const save=()=>{try{localStorage.setItem(KEY,JSON.stringify(ST))}catch(e){}};
+
+/* ---------- speech (browser fallback, lang ja-JP) ---------- */
+const SS=window.speechSynthesis||null;
+function jaVoices(){if(!SS)return[];return SS.getVoices().filter(v=>/^ja(-|_|$)/i.test(v.lang))}
+if(SS&&SS.addEventListener)SS.addEventListener("voiceschanged",()=>{});
+function utter(text,{rate=0.9,who=0,onstart,onend}={}){
+  const u=new SpeechSynthesisUtterance(plain(text));
+  u.lang="ja-JP";u.rate=rate;
+  const vs=jaVoices();if(vs.length){u.voice=vs[who%vs.length];if(vs.length===1&&who)u.pitch=0.8}else if(who)u.pitch=0.8;
+  if(onstart)u.onstart=onstart;if(onend){u.onend=onend;u.onerror=onend}
+  return u;
+}
+function speak(text,opts){if(!SS)return false;SS.cancel();SS.speak(utter(text,opts));return true}
+
+/* ---------- short clips (word / example) ---------- */
+const clipAudio=new Audio();let clipBtn=null;
+function stopAll(except){if(except!=="clip"){clipAudio.pause();if(clipBtn){clipBtn.classList.remove("on");clipBtn=null}}PLAYERS.forEach(p=>{if(p!==except)p.stop()});if(SS&&except!=="speech")SS.cancel()}
+function playClip(btn,src,text){
+  stopAll("clip");if(clipBtn)clipBtn.classList.remove("on");clipBtn=btn;btn.classList.add("on");
+  const fallback=()=>{btn.classList.add("on");speak(text,{rate:0.9,onend:()=>btn.classList.remove("on")})||btn.classList.remove("on")};
+  if(!src){fallback();return}
+  clipAudio.onended=()=>btn.classList.remove("on");
+  clipAudio.onerror=()=>{clipAudio.onerror=null;fallback()};
+  clipAudio.src=src;clipAudio.playbackRate=1;
+  const p=clipAudio.play();if(p&&p.catch)p.catch(e=>{if(e&&e.name!=="AbortError")fallback()});
+}
+document.addEventListener("click",e=>{const b=e.target.closest(".say");if(b)playClip(b,b.dataset.src||"",b.dataset.text||"")});
+const sayBtn=(src,text,label="🔊")=>'<button class="say" type="button" aria-label="播放發音" data-src="'+esc(src||"")+'" data-text="'+esc(plain(text))+'">'+label+'</button>';
+
+/* ---------- multi-line player: audio file with timestamps, or speechSynthesis line by line ---------- */
+const PLAYERS=[];
+class Player{
+  constructor(root,{audio,texts,whos,lineEls,label}){
+    this.root=root;this.info=audio;this.texts=texts;this.whos=whos||texts.map(()=>0);this.lineEls=lineEls;this.cur=-1;this.speechIdx=0;this.speaking=false;
+    this.mode=audio&&audio.src?"file":"speech";PLAYERS.push(this);
+    root.innerHTML='<div class="row"><button class="btn primary" data-a="play">▶ 播放</button><button class="btn sm" data-a="restart">⟲ 從頭</button>'
+      +'<label class="muted">速度 <select data-a="rate"><option value="0.8">0.8×</option><option value="0.9">0.9×</option><option value="1" selected>1.0×</option><option value="1.2">1.2×</option></select></label>'
+      +'<span class="tm" data-a="tm">0:00</span></div>'
+      +'<input type="range" min="0" max="1000" value="0" data-a="seek" aria-label="進度">'
+      +'<div class="row" style="margin-top:6px"><span class="muted">語音來源</span><span class="seg"><button data-m="file" aria-pressed="false">🎙 神經語音音檔</button><button data-m="speech" aria-pressed="false">🗣 瀏覽器語音</button></span></div>'
+      +'<div class="note" data-a="note"></div>';
+    this.q=a=>root.querySelector('[data-a="'+a+'"]');
+    this.el=new Audio();this.el.preload="metadata";
+    if(audio&&audio.src)this.el.src=audio.src;
+    this.el.addEventListener("timeupdate",()=>this.tick());
+    this.el.addEventListener("ended",()=>{this.setBtn(false);this.hl(-1)});
+    this.el.addEventListener("play",()=>this.setBtn(true));this.el.addEventListener("pause",()=>this.setBtn(false));
+    this.el.addEventListener("error",()=>{if(this.mode==="file"){this.setMode("speech");this.note("找不到音檔，已改用瀏覽器內建日語語音（ja-JP）。")}});
+    this.q("play").onclick=()=>this.toggle();
+    this.q("restart").onclick=()=>this.playFrom(0);
+    this.q("rate").onchange=()=>{this.el.playbackRate=+this.q("rate").value;if(this.mode==="speech"&&this.speaking)this.playFrom(Math.max(0,this.cur))};
+    this.q("seek").oninput=()=>{const v=+this.q("seek").value/1000;if(this.mode==="file"){const d=this.dur();this.el.currentTime=v*d}else{this.speechIdx=Math.min(this.texts.length-1,Math.floor(v*this.texts.length));this.hl(this.speechIdx)}};
+    root.querySelectorAll("[data-m]").forEach(b=>b.onclick=()=>{this.stop();this.setMode(b.dataset.m)});
+    lineEls.forEach((e,i)=>e.addEventListener("click",ev=>{if(ev.target.closest("button,summary,a"))return;this.playFrom(i)}));
+    if(!(audio&&audio.src))root.querySelector('[data-m="file"]').disabled=true;
+    this.setMode(this.mode);
+    if(this.mode==="speech")this.note(SS?"此頁沒有音檔，使用瀏覽器內建日語語音（ja-JP）。":"此瀏覽器不支援語音合成。");
+  }
+  note(t){this.q("note").textContent=t}
+  dur(){return this.el.duration&&isFinite(this.el.duration)?this.el.duration:(this.info&&this.info.duration)||0}
+  setMode(m){this.mode=m;this.root.querySelectorAll("[data-m]").forEach(b=>b.setAttribute("aria-pressed",b.dataset.m===m));
+    if(m==="speech"&&SS&&!jaVoices().length)this.note("提示：若聽不到聲音，請在系統設定安裝日語語音（iOS/Android/Windows 都有內建）。");
+    this.tick()}
+  setBtn(on){this.q("play").textContent=on?"⏸ 暫停":"▶ 播放"}
+  hl(i){if(i===this.cur)return;if(this.cur>=0&&this.lineEls[this.cur])this.lineEls[this.cur].classList.remove("cur");this.cur=i;if(i>=0&&this.lineEls[i])this.lineEls[i].classList.add("cur")}
+  tick(){
+    if(this.mode==="file"){const t=this.el.currentTime,d=this.dur();this.q("tm").textContent=fmt(t)+" / "+fmt(d);this.q("seek").value=d?Math.round(t/d*1000):0;
+      const T=(this.info&&this.info.times)||[];let k=-1;for(let i=0;i<T.length;i++){if(t>=T[i][0]-0.05)k=i}
+      if(!this.el.paused||t>0)this.hl(k)}
+    else{const n=this.texts.length;this.q("tm").textContent="第 "+(Math.max(0,this.cur)+1)+" / "+n+" 句";this.q("seek").value=n?Math.round(Math.max(0,this.cur)/n*1000):0}
+  }
+  playing(){return this.mode==="file"?!this.el.paused:this.speaking}
+  toggle(){if(this.playing()){this.pause()}else{this.mode==="file"?this.playFile():this.playFrom(this.speechIdx||0)}}
+  playFile(){stopAll(this);this.el.playbackRate=+this.q("rate").value;const p=this.el.play();if(p&&p.catch)p.catch(e=>{if(e&&e.name==="NotSupportedError"){this.setMode("speech");this.playFrom(0)}})}
+  playFrom(i){
+    if(this.mode==="file"){const T=(this.info&&this.info.times)||[];this.el.currentTime=T[i]?T[i][0]:0;this.playFile();return}
+    stopAll(this);if(!SS){this.note("此瀏覽器不支援語音合成。");return}
+    SS.cancel();this.speaking=true;this.setBtn(true);const rate=+this.q("rate").value*0.9;const gen=(this.gen=(this.gen||0)+1);
+    const next=k=>{if(gen!==this.gen)return;if(k>=this.texts.length){this.speaking=false;this.speechIdx=0;this.setBtn(false);this.hl(-1);this.tick();return}
+      this.speechIdx=k;SS.speak(utter(this.texts[k],{rate,who:this.whos[k],onstart:()=>{if(gen===this.gen){this.hl(k);this.tick()}},onend:()=>setTimeout(()=>next(k+1),250)}))};
+    next(i);
+  }
+  pause(){if(this.mode==="file")this.el.pause();else{this.gen=(this.gen||0)+1;this.speaking=false;if(SS)SS.cancel();this.setBtn(false)}}
+  stop(){if(this.playing())this.pause()}
+}
+
+/* ---------- progress ---------- */
+const SEC={listen:"L",grammar:"G",read:"R"};
+function doneBtn(t){const k=SEC[t];const on=ST[k]&&ST[k].done;return'<div class="done-row"><button class="btn '+(on?"ok":"primary")+'" data-done="'+t+'">'+(on?"✓ 已完成（再按取消）":"✓ 完成本段")+'</button></div>'}
+document.addEventListener("click",e=>{const b=e.target.closest("[data-done]");if(!b)return;const t=b.dataset.done,k=SEC[t];ST[k]=ST[k]||{};ST[k].done=!ST[k].done;ST[k].at=Date.now();save();b.outerHTML=doneBtn(t);tabMarks()});
+function tabMarks(){["listen","grammar","read"].forEach(t=>{const m=DATA.minutes[t==="listen"?"listen":t==="grammar"?"grammar":"read"];const d=ST[SEC[t]]&&ST[SEC[t]].done;$("#tm-"+t).textContent=(d?"✓ ":"")+"約 "+m+" 分"})}
+
+/* ---------- questions ---------- */
+function qBlock(q,n,key){
+  let h='<div class="q" data-q="'+key+'"><div class="qt jp"><span class="qn">'+n+'.</span>'+rb(q.q)+'</div>';
+  if(q.zh)h+='<div class="zh">'+rb(q.zh)+'</div>';
+  if(q.options){h+='<div class="opts">'+q.options.map((o,i)=>'<button class="opt jp" type="button" data-i="'+i+'">'+String.fromCharCode(65+i)+'. '+rb(o)+'</button>').join("")+'</div>'}
+  const ans=q.options?String.fromCharCode(65+q.a)+'. '+rb(q.options[q.a]):rb(q.a);
+  h+='<details class="ans"><summary>看答案</summary><div class="box"><b>答案：</b><span class="jp">'+ans+'</span>'+(q.ex?'<div>'+rb(q.ex)+'</div>':"")+'</div></details></div>';
+  return h;
+}
+document.addEventListener("click",e=>{const o=e.target.closest(".opt");if(!o)return;const box=o.closest(".q");const key=box.dataset.q;const q=QMAP[key];
+  box.querySelectorAll(".opt").forEach(b=>{b.classList.remove("right","wrong");const i=+b.dataset.i;if(i===q.a)b.classList.add("right")});
+  if(+o.dataset.i!==q.a)o.classList.add("wrong");box.querySelector("details.ans").open=true});
+const QMAP={};
+
+/* ---------- render ---------- */
+const WD=["日","一","二","三","四","五","六"];
+function render(){
+  const D=DATA,[y,m,d]=D.date.split("-").map(Number),wd=WD[new Date(y,m-1,d).getDay()];
+  document.title=D.date+" · "+plain(D.title)+" · 日語 N3 之路";
+  const ph=D.phase||{};
+  $("#hero").innerHTML='<span class="tag">日語 N3 之路 · 每日 30 分</span>'+(ph.name?'<span class="tag">'+esc(ph.name)+' 階段</span>':"")+(D.level?'<span class="tag">'+esc(D.level)+' 程度</span>':"")
+    +'<div class="date">'+y+' 年 '+m+' 月 '+d+' 日（星期'+wd+'）'+(D.dayNo?' · 第 '+D.dayNo+' 天':"")+'</div>'
+    +'<h1 class="jp">'+rb(D.title)+'</h1>'
+    +'<div class="meta">'+(D.monthFocus?'本月重點：'+esc(D.monthFocus)+'<br>':"")+(D.daysLeft!=null?'🎌 距離 JLPT N3（'+esc(D.exam)+'）還有 <b>'+D.daysLeft+'</b> 天':"")+'</div>';
+  const M=D.minutes,tot=M.listen+M.grammar+M.read;const la=D.listening.audio;
+  const ev=(D.events||[]).map(e=>'<div class="event">'+esc(e.icon+" "+e.t)+(e.note?"："+esc(e.note):"")+'</div>').join("");
+  $("#plancard").innerHTML='<details class="plan" open><summary>⏱️ 今日時間規劃 <small class="muted">共約 '+tot+' 分鐘'+(D.light?'（輕量版）':'')+'</small></summary>'+ev
+   +'<div class="blk"><b>🎧 聽力・約 '+M.listen+' 分</b><p>'+(la&&la.duration?'對話音檔約 '+fmt(la.duration)+'。':'')+'① 不看稿聽 2 次 → ② 作答 '+D.listening.questions.length+' 題 → ③ 打開逐字稿跟讀（shadowing）→ ④ 不看稿再聽一次。</p><button class="btn sm" data-go="listen">開始聽力</button></div>'
+   +'<div class="blk"><b>📘 文法・約 '+M.grammar+' 分</b><p>'+D.grammar.length+' 個句型：讀說明、聽例句並跟讀 → 做 '+D.practice.length+' 題練習。</p><button class="btn sm" data-go="grammar">開始文法</button></div>'
+   +'<div class="blk"><b>📖 閱讀・約 '+M.read+' 分</b><p>先不看翻譯讀一遍 → 作答 '+D.reading.questions.length+' 題 → 對照詞彙／翻譯、聽朗讀。單字卡（'+D.vocab.length+' 個）可零碎時間複習。</p><button class="btn sm" data-go="read">開始閱讀</button></div></details>';
+
+  /* listening */
+  const L=D.listening,sp=L.speakers||{};
+  let h='<div class="card"><h2>🎧 聽力 <small>'+rb(L.title)+'</small></h2><p class="zh" style="margin-top:0">情境：'+rb(L.scene||"")+'</p>'
+   +'<div class="player" id="lplayer"></div>'
+   +'<div class="row" style="margin-top:10px"><button class="btn sm" id="scrBtn" aria-expanded="false">📜 顯示逐字稿</button><button class="btn sm" id="ztrBtn" hidden>顯示中文</button><span class="muted">點任一句可從該句開始播放</span></div>'
+   +'<div class="script jp noztr" id="lscript" hidden>'+L.lines.map((l,i)=>'<div class="ln" data-i="'+i+'"><span class="who '+esc(l.sp)+'">'+esc((sp[l.sp]&&sp[l.sp].name)||l.sp)+'</span><span class="tx">'+rb(l.jp)+'<span class="zh">'+rb(l.zh||"")+'</span></span></div>').join("")+'</div></div>'
+   +'<div class="card"><h2>❓ 聽力問題 <small>先聽再作答；點選項立即對答案</small></h2>'+L.questions.map((q,i)=>{QMAP["l"+i]=q;return qBlock(q,i+1,"l"+i)}).join("")+'</div>'+doneBtn("listen");
+  $("#p-listen").innerHTML=h;
+
+  /* grammar */
+  h='<div class="card"><h2>📘 文法 <small>'+D.grammar.length+' 個句型</small></h2>'+D.grammar.map((g,gi)=>'<div class="gp"><div class="pat jp">'+(gi+1)+'. '+rb(g.pattern)+'</div><div class="mean">'+rb(g.meaning)+'</div><ul>'+g.explain.map(x=>'<li>'+rb(x)+'</li>').join("")+'</ul>'
+     +g.examples.map(e=>'<div class="ex">'+sayBtn(e.clip,e.jp)+'<div><div class="t jp">'+rb(e.jp)+'</div><div class="zh">'+rb(e.zh)+'</div></div></div>').join("")+(g.note?'<p class="muted">'+rb(g.note)+'</p>':"")+'</div>').join("")+'</div>'
+   +'<div class="card"><h2>✏️ 練習 <small>寫在心裡或紙上，再看答案</small></h2>'+D.practice.map((q,i)=>{QMAP["g"+i]=q;return qBlock(q,i+1,"g"+i)}).join("")+'</div>'+doneBtn("grammar");
+  $("#p-grammar").innerHTML=h;
+
+  /* reading */
+  const R=D.reading;let si=0;
+  h='<div class="card"><h2>📖 閱讀 <small class="jp">'+rb(R.title)+'</small></h2><div class="passage jp" id="passage">'+R.passage.map(p=>'<p>'+p.map(s=>'<span class="s" data-i="'+(si++)+'">'+rb(s)+'</span>').join("")+'</p>').join("")+'</div>'
+   +'<div class="player" id="rplayer"></div>'
+   +(R.trans?'<details class="ans" style="margin-top:10px"><summary>顯示全文翻譯</summary><div class="box trans">'+R.trans.map(t=>'<p>'+rb(t)+'</p>').join("")+'</div></details>':"")
+   +'<h3>📝 詞彙註解</h3><div class="gloss">'+R.gloss.map(g=>'<div><span class="w jp">'+rb(g.w)+'</span>　<span class="zh">'+rb(g.zh)+'</span></div>').join("")+'</div></div>'
+   +'<div class="card"><h2>❓ 閱讀問題</h2>'+R.questions.map((q,i)=>{QMAP["r"+i]=q;return qBlock(q,i+1,"r"+i)}).join("")+'</div>'+doneBtn("read");
+  $("#p-read").innerHTML=h;
+
+  /* vocab */
+  h='<div class="card" id="vcard"><h2>🗂 今日單字 <small>'+D.vocab.length+' 個</small><button class="btn sm" id="hideZh" style="margin-left:auto">遮住中文自我測驗</button></h2>'
+   +D.vocab.map(v=>'<div class="vc">'+sayBtn(v.clip,v.say||v.w)+'<div style="flex:1"><div><span class="w jp">'+rb(v.w)+'</span><span class="pos">'+esc(v.pos||"")+'</span></div><div class="mn">'+rb(v.zh)+'</div>'
+     +(v.ex?'<div class="ex" style="margin-top:4px">'+sayBtn(v.exclip,v.ex)+'<div><div class="t jp">'+rb(v.ex)+'</div><div class="zh">'+rb(v.exzh||"")+'</div></div></div>':"")+'</div></div>').join("")+'</div>';
+  $("#p-vocab").innerHTML=h;
+
+  /* players */
+  const lines=[...document.querySelectorAll("#lscript .ln")];
+  const spk=[...new Set(L.lines.map(l=>l.sp))];
+  window.LP=new Player($("#lplayer"),{audio:L.audio,texts:L.lines.map(l=>l.say||l.jp),whos:L.lines.map(l=>spk.indexOf(l.sp)),lineEls:lines});
+  const sents=[...document.querySelectorAll("#passage .s")];
+  window.RP=new Player($("#rplayer"),{audio:R.audio,texts:R.passage.flat(),lineEls:sents});
+  $("#scrBtn").onclick=()=>{const s=$("#lscript"),open=s.hidden;s.hidden=!open;$("#scrBtn").textContent=open?"🙈 隱藏逐字稿":"📜 顯示逐字稿";$("#scrBtn").setAttribute("aria-expanded",open);$("#ztrBtn").hidden=!open};
+  $("#ztrBtn").onclick=()=>{const s=$("#lscript");s.classList.toggle("noztr");$("#ztrBtn").textContent=s.classList.contains("noztr")?"顯示中文":"隱藏中文"};
+  $("#hideZh").onclick=()=>{$("#vcard").classList.toggle("hidezh")};
+  document.addEventListener("click",e=>{const m=e.target.closest(".hidezh .mn");if(m)m.style.filter=m.style.filter?"":"none"});
+  tabMarks();
+}
+/* tabs */
+function show(t){document.querySelectorAll("nav.tabs button").forEach(b=>b.setAttribute("aria-selected",b.dataset.t===t));
+  ["listen","grammar","read","vocab"].forEach(x=>$("#p-"+x).hidden=x!==t);PLAYERS.forEach(p=>p.stop());if(history.replaceState)history.replaceState(null,"","#"+t)}
+document.querySelectorAll("nav.tabs button").forEach(b=>b.onclick=()=>show(b.dataset.t));
+document.addEventListener("click",e=>{const g=e.target.closest("[data-go]");if(g){show(g.dataset.go);$("nav.tabs").scrollIntoView({behavior:"smooth"})}});
+/* furigana toggle */
+function setFuri(on){document.body.classList.toggle("nofuri",!on);$("#furiBtn").textContent="ふりがな："+(on?"開":"關");$("#furiBtn").setAttribute("aria-pressed",on);try{localStorage.setItem("jp-n3:furi",on?"1":"0")}catch(e){}}
+$("#furiBtn").onclick=()=>setFuri(document.body.classList.contains("nofuri"));
+render();
+setFuri((()=>{try{return localStorage.getItem("jp-n3:furi")!=="0"}catch(e){return true}})());
+const h0=location.hash.slice(1);if(["listen","grammar","read","vocab"].includes(h0))show(h0);
+</script>
+<!-- refresh button (standalone/home-screen mode has no reload button) -->
+<style>
+.rfb{position:fixed;z-index:60;top:calc(8px + env(safe-area-inset-top,0px));right:calc(8px + env(safe-area-inset-right,0px));width:32px;height:32px;margin:0;padding:0;border:1px solid rgba(127,127,127,.35);border-radius:50%;background:rgba(127,127,127,.14);-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px);color:inherit;font:400 18px/1 -apple-system,"Segoe UI",sans-serif;display:flex;align-items:center;justify-content:center;cursor:pointer;opacity:.6;-webkit-tap-highlight-color:transparent;touch-action:manipulation}
+.rfb:hover,.rfb:focus-visible,.rfb:active{opacity:1}
+</style>
+<button type="button" class="rfb" id="rfb" aria-label="重新整理" title="重新整理">↻</button>
+<script>
+(function(){var b=document.getElementById("rfb");if(!b)return;b.addEventListener("click",function(){
+  var q=new URLSearchParams(location.search);q.delete("v");q.set("v",String(Date.now()));
+  location.replace(location.pathname+"?"+q.toString()+location.hash);
+});})();
+</script>
+</body>
+</html>
